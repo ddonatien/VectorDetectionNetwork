@@ -44,7 +44,7 @@ from typing import Optional
 sys.path.append(".")
 save = False
 
-root_dir = '/VDN'
+root_dir = '/content'
 
 
 class VectorDetectionNetwork:
@@ -131,9 +131,11 @@ class VectorDetectionNetwork:
         )
         train_loader = torch.utils.data.DataLoader(
             train_dataset,
-            batch_size=cfgs.TRAIN.BATCH_SIZE * len(self.gpus),
+            # batch_size=cfgs.TRAIN.BATCH_SIZE * len(self.gpus),
+            batch_size=1,
             shuffle=cfgs.TRAIN.SHUFFLE,
-            num_workers=cfgs.WORKERS,
+            # num_workers=cfgs.WORKERS,
+            num_workers=0,
             pin_memory=True,
 
         )
