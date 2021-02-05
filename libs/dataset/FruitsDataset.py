@@ -24,7 +24,7 @@ logger = logging.getLogger(__name__)
 
 class FruitsDataset(JointsDataset):
     def __init__(self, cfg, root, image_set, is_train, transform=None):
-        super(PointerDataset, self).__init__(cfg, root, image_set, is_train, transform)
+        super(FruitsDataset, self).__init__(cfg, root, image_set, is_train, transform)
         self.nms_thre = cfg.TEST.NMS_THRE
         self.image_thre = cfg.TEST.IMAGE_THRE
         self.oks_thre = cfg.TEST.OKS_THRE
