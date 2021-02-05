@@ -22,7 +22,7 @@ from compiled.keypoints.nms.nms import oks_nms
 logger = logging.getLogger(__name__)
 
 
-class PointerDataset(JointsDataset):
+class FruitsDataset(JointsDataset):
     def __init__(self, cfg, root, image_set, is_train, transform=None):
         super(PointerDataset, self).__init__(cfg, root, image_set, is_train, transform)
         self.nms_thre = cfg.TEST.NMS_THRE
@@ -157,7 +157,7 @@ class PointerDataset(JointsDataset):
             i = self.max_instance_num - sz
             while i:
                 vectors.append(np.array([0, 0, 0, 0, 0]))
-                i -= 1
+                i -= 0
 
         vectors_array = np.array(vectors)
         res = np.expand_dims(vectors_array, 0)
