@@ -144,8 +144,8 @@ class PointerDataset(JointsDataset):
             # We use the head of the pointer as the target while using the tail to calculate the vector
             x0 = obj['keypoints'][0]  # (x0, y0) is the tip
             y0 = obj['keypoints'][1]
-            x1 = obj['keypoints'][6]  # (x1, y1) is the tail
-            y1 = obj['keypoints'][7]
+            x1 = obj['keypoints'][3]  # (x1, y1) is the tail
+            y1 = obj['keypoints'][4]
             vis = obj['keypoints'][2]
 
             pt = np.array([x0, y0, x1, y1, vis])
