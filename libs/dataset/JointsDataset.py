@@ -125,7 +125,8 @@ class JointsDataset(Dataset):
         # joints_xyv [num_joints, k, 5] -> (x0, y0, x1, y1, v)
         # n is the keypoint number of each target, k is the instance number, here k==3
         # if in an image the instance number is less than 3, then for the absence instances v==0
-        for n in range(self.num_joints):
+        # for n in range(self.num_joints):
+        for n in range(self.num_joints - 1):
             for k in range(joints_xyv.shape[1]):
                 if joints_xyv[n][k][4] > 0:
                     joints_xyv[n, k, 0:2] = affine_transform(joints_xyv[n, k, 0:2], trans)
@@ -163,7 +164,8 @@ class JointsDataset(Dataset):
 
         tmp_size = self.sigma * 3  # 3*3
 
-        for n in range(self.num_joints):
+        # for n in range(self.num_joints):
+        for n in range(self.num_joints - 1):
             for k in range(joints_xyv.shape[1]):
                 if joints_xyv[n][k][-1] == 0:
                     continue

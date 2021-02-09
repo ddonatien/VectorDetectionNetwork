@@ -87,6 +87,32 @@ class FruitsDataset(JointsDataset):
 
         """
         gt_db = []
+
+        ###############
+        ###### CHANGED
+        ###############
+        self.image_set_index.remove(1)
+        self.image_set_index.remove(15)
+        self.image_set_index.remove(9)
+        self.image_set_index.remove(22)
+        self.image_set_index.remove(34)
+        self.image_set_index.remove(13)
+        self.image_set_index.remove(28)
+        self.image_set_index.remove(16)
+        # Trop de keypoints
+        self.image_set_index.remove(6)
+        self.image_set_index.remove(12)
+        self.image_set_index.remove(17)
+        self.image_set_index.remove(26)
+        self.image_set_index.remove(30)
+        self.image_set_index.remove(32)
+        self.image_set_index.remove(36)
+        self.image_set_index.remove(40)
+        self.image_set_index.remove(41)
+        self.image_set_index.remove(42)
+        self.image_set_index.remove(44)
+        self.image_set_index.remove(47)
+
         for index in self.image_set_index:
             gt_db.extend(self._load_coco_keypoint_annotation_kernel(index))
 
@@ -248,7 +274,7 @@ class FruitsDataset(JointsDataset):
                 'scale': all_boxes[idx][2:4],
                 'area': all_boxes[idx][4],
                 'score': all_boxes[idx][5],
-                'image': int(img_path[idx][-16:-4])
+                'image': int(img_path[idx][-12:-4])
             })
 
         kpts = defaultdict(list)
@@ -276,7 +302,7 @@ class FruitsDataset(JointsDataset):
 
                 n_p['score'] = kpt_score * box_score
 
-            keep = oks_nms([img_kpts[i] for i in range(len(img_kpts))], oks_thre, sigmas = 0.025 * np.ones(self.num_joints))
+            keep = oks_nms([img_kpts[i] for i in range(len(img_kpts))], oks_thre, sigmas = 0.025 * np.ones(self.max_instance_num))
 
             if len(keep) == 0:
                 oks_nmsed_kpts.append(img_kpts)
@@ -331,6 +357,7 @@ class FruitsDataset(JointsDataset):
         coco_dt = self.coco.load_res(res_file)
         coco_eval = COCOeval(self.coco, coco_dt, 'keypoints')
         coco_eval.params.useSegm = None
+        coco_eval.params.kpt_oks_sigmas = 0.04 * np.ones(self.num_joints)
         coco_eval.evaluate()
         coco_eval.accumulate()
         coco_eval.summarize()

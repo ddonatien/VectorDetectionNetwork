@@ -5,9 +5,9 @@ WORKERS: 4
 
 DATASET:
   DATASET: 'coco'
-  ROOT: '/content/Database/fruits'
-  TRAIN_SET: 'train_fruits'
-  TEST_SET: 'val_fruits'
+  ROOT: '/content/Database/grapes'
+  TRAIN_SET: 'train_grapes'
+  TEST_SET: 'train_grapes'
   ROT_FACTOR: 90
   SCALE_FACTOR: 0.02
 MODEL:

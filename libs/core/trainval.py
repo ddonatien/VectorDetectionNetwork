@@ -166,9 +166,9 @@ def validate(config, val_loader, val_dataset, model, crit_heatmap, crit_vector, 
             det_num = min(j_preds.shape[-2], max_instance_num)
             for m in range(det_num):
                 js = j_preds.shape
-                det_j_pred = np.zeros((js[0], js[1], 3, 2))
-                det_v_pred = np.zeros((js[0], js[1], 3, 2))
-                det_val = np.zeros((js[0], js[1], 3, 1))
+                det_j_pred = np.zeros((js[0], js[1], 2, 2)) # TODO (3, 2) -> (2, 2)
+                det_v_pred = np.zeros((js[0], js[1], 2, 2)) # TODO (3, 2) -> (2, 2)
+                det_val = np.zeros((js[0], js[1], 2, 1)) # TODO (3, 1) -> (2, 1)
                 det_j_pred[:, :, 0] = j_preds[:, :, m]
                 det_v_pred[:, :, 0] = v_preds[:, :, m]
                 det_val[:, :, 0] = maxvals[:, :, m]
@@ -179,21 +179,21 @@ def validate(config, val_loader, val_dataset, model, crit_heatmap, crit_vector, 
 
                 if det_j_pred.shape[-1] == 2 and det_val.shape[-1] == 1:
                     if all_kp_preds is None:
-                        all_kp_preds = np.zeros((num_images, 3, 3))
+                        all_kp_preds = np.zeros((num_images, 2, 3)) # TODO
                         all_kp_preds[:, 0:3, 0:2] = det_j_pred[:, 0:3, :]
                         all_kp_preds[:, 0:3, 2:3] = det_val[:, 0:3, :]
                     else:
-                        tmp_preds = np.zeros((num_images, 3, 3))
+                        tmp_preds = np.zeros((num_images, 2, 3)) # TODO
                         tmp_preds[:, 0:3, 0:2] = det_j_pred[:, 0:3, :]
                         tmp_preds[:, 0:3, 2:3] = det_val[:, 0:3, :]
                         all_kp_preds = np.concatenate((all_kp_preds, tmp_preds), axis=0)
 
                     det_ang_pred = vector_components_to_deg(det_v_pred)
                     if all_vd_preds is None:
-                        all_vd_preds = np.ones((num_images, 3, 3))
+                        all_vd_preds = np.ones((num_images, 2, 3)) # TODO
                         all_vd_preds[:, 0:3, :] = det_ang_pred[:, 0:3, :]
                     else:
-                        tmp_preds = np.zeros((num_images, 3, 3))
+                        tmp_preds = np.zeros((num_images, 2, 3)) # TODO
                         tmp_preds[:, :, :] = det_ang_pred[:, :, :]
                         all_vd_preds = np.concatenate((all_vd_preds, tmp_preds), axis=0)
 
