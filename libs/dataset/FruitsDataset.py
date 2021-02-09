@@ -183,7 +183,7 @@ class FruitsDataset(JointsDataset):
             i = self.max_instance_num - sz
             while i:
                 vectors.append(np.array([0, 0, 0, 0, 0]))
-                i -= 0
+                i -= 1
 
         vectors_array = np.array(vectors)
         res = np.expand_dims(vectors_array, 0)
