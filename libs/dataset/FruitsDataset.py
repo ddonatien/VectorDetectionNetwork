@@ -25,6 +25,8 @@ logger = logging.getLogger(__name__)
 class FruitsDataset(JointsDataset):
     def __init__(self, cfg, root, image_set, is_train, transform=None):
         super(FruitsDataset, self).__init__(cfg, root, image_set, is_train, transform)
+
+        ## Load parameters from config
         self.nms_thre = cfg.TEST.NMS_THRE
         self.image_thre = cfg.TEST.IMAGE_THRE
         self.oks_thre = cfg.TEST.OKS_THRE
@@ -33,12 +35,18 @@ class FruitsDataset(JointsDataset):
         self.use_gt_bbox = cfg.TEST.USE_GT_BBOX
         self.image_width = cfg.MODEL.IMAGE_SIZE[0]
         self.image_height = cfg.MODEL.IMAGE_SIZE[1]
+
+        ## Hard coded parameters
         self.aspect_ratio = self.image_width * 1.0 / self.image_height
         self.pixel_std = 200
+
+        ## Get COCO instance
         self.coco = COCO(self._get_ann_file())
+
+        ## Adapt anns for vectors 
         self.coco_vds = self.generate_vds()
 
-        # deal with class names
+        # Deal with class names
         cats = [cat['name'] for cat in self.coco.loadCats(self.coco.getCatIds())]
         self.classes = ['__background__'] + cats
         logger.info('=> classes: {}'.format(self.classes))
@@ -91,14 +99,14 @@ class FruitsDataset(JointsDataset):
         ###############
         ###### CHANGED
         ###############
-        self.image_set_index.remove(1)
-        self.image_set_index.remove(15)
-        self.image_set_index.remove(9)
-        self.image_set_index.remove(22)
-        self.image_set_index.remove(34)
-        self.image_set_index.remove(13)
-        self.image_set_index.remove(28)
-        self.image_set_index.remove(16)
+        self.image_set_index.remove(1)  # 275x183
+        self.image_set_index.remove(9)  # 259x194
+        self.image_set_index.remove(13) # 281x180
+        self.image_set_index.remove(15) # 259x194
+        self.image_set_index.remove(16) # 650x800 pas d'annotation
+        self.image_set_index.remove(22) # 183x300
+        self.image_set_index.remove(28) # 275x183
+        self.image_set_index.remove(34) # 300x420 pas d'annotation
         # Trop de keypoints
         self.image_set_index.remove(6)
         self.image_set_index.remove(12)
@@ -135,7 +143,7 @@ class FruitsDataset(JointsDataset):
         width = im_ann['width']
         height = im_ann['height']
 
-        # one img id is correspond to multiple annotation ids, each annotation is for a pointer,
+        # one img id corresponds to multiple annotation ids, each annotation is for a pointer,
         # but these pointers all share the same bounding box.
         ann_ids = self.coco.getAnnIds(imgIds=index, iscrowd=False)
         objs = self.coco.loadAnns(ann_ids)
@@ -302,7 +310,7 @@ class FruitsDataset(JointsDataset):
 
                 n_p['score'] = kpt_score * box_score
 
-            keep = oks_nms([img_kpts[i] for i in range(len(img_kpts))], oks_thre, sigmas = 0.025 * np.ones(self.max_instance_num))
+            keep = oks_nms([img_kpts[i] for i in range(len(img_kpts))], oks_thre, sigmas = 0.025 * np.ones(self.num_joints))
 
             if len(keep) == 0:
                 oks_nmsed_kpts.append(img_kpts)
