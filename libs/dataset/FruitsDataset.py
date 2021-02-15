@@ -232,7 +232,7 @@ class FruitsDataset(JointsDataset):
         """example: images / train_pointer / 000000119993.jpg.
 
         """
-        file_name = '%08d.jpg' % index
+        file_name = '%012d.jpg' % index
         prefix = self.image_set
         data_name = prefix + '.zip@' if self.data_format == 'zip' else prefix
 
@@ -282,7 +282,7 @@ class FruitsDataset(JointsDataset):
                 'scale': all_boxes[idx][2:4],
                 'area': all_boxes[idx][4],
                 'score': all_boxes[idx][5],
-                'image': int(img_path[idx][-12:-4])
+                'image': int(img_path[idx][-16:-4])
             })
 
         kpts = defaultdict(list)
@@ -299,7 +299,7 @@ class FruitsDataset(JointsDataset):
                 box_score = n_p['score']
                 kpt_score = 0
                 valid_num = 0
-                for n_jt in range(0, self.max_num_joints):
+                for n_jt in range(0, self.max_joint_num):
                     trust_score = n_p['keypoints'][n_jt][2]
                     if trust_score > in_vis_thre:
                         kpt_score = kpt_score + trust_score
@@ -310,7 +310,7 @@ class FruitsDataset(JointsDataset):
 
                 n_p['score'] = kpt_score * box_score
 
-            keep = oks_nms([img_kpts[i] for i in range(len(img_kpts))], oks_thre, sigmas = 0.025 * np.ones(self.max_num_joints))
+            keep = oks_nms([img_kpts[i] for i in range(len(img_kpts))], oks_thre, sigmas = 0.025 * np.ones(self.max_joint_num))
 
             if len(keep) == 0:
                 oks_nmsed_kpts.append(img_kpts)
@@ -343,9 +343,9 @@ class FruitsDataset(JointsDataset):
                 continue
 
             _key_points = np.array([img_kpts[k]['keypoints'] for k in range(len(img_kpts))])
-            key_points = np.zeros((_key_points.shape[0], self.max_num_joints * 3), dtype=np.float)
+            key_points = np.zeros((_key_points.shape[0], self.max_joint_num * 3), dtype=np.float)
 
-            for ipt in range(self.max_num_joints):
+            for ipt in range(self.max_joint_num):
                 key_points[:, ipt * 3 + 0] = _key_points[:, ipt, 0]
                 key_points[:, ipt * 3 + 1] = _key_points[:, ipt, 1]
                 key_points[:, ipt * 3 + 2] = _key_points[:, ipt, 2]  # keypoints score.
@@ -365,7 +365,7 @@ class FruitsDataset(JointsDataset):
         coco_dt = self.coco.load_res(res_file)
         coco_eval = COCOeval(self.coco, coco_dt, 'keypoints')
         coco_eval.params.useSegm = None
-        coco_eval.params.kpt_oks_sigmas = 0.04 * np.ones(self.max_num_joints)
+        coco_eval.params.kpt_oks_sigmas = 0.04 * np.ones(self.max_joint_num)
         coco_eval.evaluate()
         coco_eval.accumulate()
         coco_eval.summarize()
@@ -389,7 +389,7 @@ class FruitsDataset(JointsDataset):
         coco_eval.params.useSegm = None
 
         # Specifically set the sigma of VDS. Note here we borrowed the variable from OKS
-        coco_eval.params.kpt_oks_sigmas = 0.2 * np.ones(self.max_num_joints)
+        coco_eval.params.kpt_oks_sigmas = 0.2 * np.ones(self.max_joint_num)
 
         coco_eval.evaluate()
         coco_eval.accumulate()
