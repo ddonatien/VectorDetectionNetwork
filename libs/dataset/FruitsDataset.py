@@ -97,16 +97,22 @@ class FruitsDataset(JointsDataset):
         gt_db = []
         l = 0
         r = 0
+        rmv = []
 
         for index in self.image_set_index:
             try:
-              gt_db.extend(self._load_coco_keypoint_annotation_kernel(index))
-              l += 1
+                gt_db.extend(self._load_coco_keypoint_annotation_kernel(index))
+                l += 1
             except ValueError:
-              r += 1
+                rmv.append(index)
+                r += 1
 
         print(f"_load_coco_keypoint_annotations {r} images removed")
         print(f"_load_coco_keypoint_annotations {l} images left")
+
+        with open(f"removed_{datetime.datetime.now()}.txt", 'w') as f:
+            for item in rmv:
+                f.write("%s\n" % item)
 
         return gt_db
 
