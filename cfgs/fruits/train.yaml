@@ -7,7 +7,7 @@ DATASET:
   DATASET: 'coco'
   ROOT: '/content/Database/grapes'
   TRAIN_SET: 'train_grapes'
-  TEST_SET: 'train_grapes'
+  TEST_SET: 'val_grapes'
   ROT_FACTOR: 90
   SCALE_FACTOR: 0.02
 MODEL:
@@ -41,7 +41,7 @@ TRAIN:
   BATCH_SIZE: 8
   SHUFFLE: true
   BEGIN_EPOCH: 0
-  END_EPOCH: 180
+  END_EPOCH: 300
   RESUME: false
   OPTIMIZER: 'adam'
   LR: 0.001
