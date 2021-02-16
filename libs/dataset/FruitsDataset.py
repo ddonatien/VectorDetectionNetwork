@@ -95,34 +95,18 @@ class FruitsDataset(JointsDataset):
 
         """
         gt_db = []
-
-        ###############
-        ###### CHANGED
-        ###############
-        self.image_set_index.remove(1)  # 275x183
-        self.image_set_index.remove(9)  # 259x194
-        self.image_set_index.remove(13) # 281x180
-        self.image_set_index.remove(15) # 259x194
-        self.image_set_index.remove(16) # 650x800 pas d'annotation
-        self.image_set_index.remove(22) # 183x300
-        self.image_set_index.remove(28) # 275x183
-        self.image_set_index.remove(34) # 300x420 pas d'annotation
-        # Trop de keypoints
-        self.image_set_index.remove(6)
-        self.image_set_index.remove(12)
-        self.image_set_index.remove(17)
-        self.image_set_index.remove(26)
-        self.image_set_index.remove(30)
-        self.image_set_index.remove(32)
-        self.image_set_index.remove(36)
-        self.image_set_index.remove(40)
-        self.image_set_index.remove(41)
-        self.image_set_index.remove(42)
-        self.image_set_index.remove(44)
-        self.image_set_index.remove(47)
+        l = 0
+        r = 0
 
         for index in self.image_set_index:
-            gt_db.extend(self._load_coco_keypoint_annotation_kernel(index))
+            try:
+              gt_db.extend(self._load_coco_keypoint_annotation_kernel(index))
+              l += 1
+            except ValueError:
+              r += 1
+
+        print(f"_load_coco_keypoint_annotations {r} images removed")
+        print(f"_load_coco_keypoint_annotations {l} images left")
 
         return gt_db
 
