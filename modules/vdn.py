@@ -117,9 +117,9 @@ class VectorDetectionNetwork:
             True,
             transform=transforms.Compose([
                 transforms.ToTensor(),
-                transforms.ColorJitter(hue=.2, saturation=.2, brightness=0.2, contrast=0.2),
-                transforms.RandomErasing(),
-                transforms.RandomGrayscale(),
+                transforms.ColorJitter(hue=.02, saturation=.02, brightness=0.02, contrast=0.02),
+                transforms.RandomErasing(p=0.7, scale=(0.01, 0.2), ratio=(0.3, 3.3), value=0.1),
+                transforms.RandomGrayscale(p=0.5),
                 normalize, ])
         )
         valid_dataset = lib_dataset.CoCo(
@@ -140,7 +140,6 @@ class VectorDetectionNetwork:
             num_workers=cfgs.WORKERS,
             # num_workers=0,
             pin_memory=True,
-
         )
         valid_loader = torch.utils.data.DataLoader(
             valid_dataset,
