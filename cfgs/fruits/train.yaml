@@ -12,7 +12,7 @@ DATASET:
   SCALE_FACTOR: 0.02
 MODEL:
   NAME: 'vdn_model'
-  PRETRAINED: '/content/weights/pretrained/resnet50-19c8e357.pth'
+  PRETRAINED: '/content/weights/pretrained/resnet18-5c106cde.pth'
   IMAGE_SIZE:
   - 384  # width
   - 384  # height
@@ -34,21 +34,21 @@ MODEL:
     - 4
     - 4
     - 4
-    NUM_LAYERS: 50
+    NUM_LAYERS: 18
 LOSS:
   USE_TARGET_WEIGHT: true
 TRAIN:
   BATCH_SIZE: 8
   SHUFFLE: true
   BEGIN_EPOCH: 0
-  END_EPOCH: 300
+  END_EPOCH: 110
   RESUME: false
   OPTIMIZER: 'adam'
   LR: 0.001
   LR_FACTOR: 0.1
   LR_STEP:
-  - 140
-  - 190
+  - 70
+  - 95
   WD: 0.0001
   GAMMA1: 0.99
   GAMMA2: 0.0
