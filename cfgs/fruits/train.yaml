@@ -41,14 +41,15 @@ TRAIN:
   BATCH_SIZE: 8
   SHUFFLE: true
   BEGIN_EPOCH: 0
-  END_EPOCH: 110
+  END_EPOCH: 220
   RESUME: false
   OPTIMIZER: 'adam'
   LR: 0.001
   LR_FACTOR: 0.1
   LR_STEP:
-  - 70
-  - 95
+  - 90
+  - 160
+  - 210
   WD: 0.0001
   GAMMA1: 0.99
   GAMMA2: 0.0

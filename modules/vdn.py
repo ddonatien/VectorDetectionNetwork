@@ -117,9 +117,9 @@ class VectorDetectionNetwork:
             True,
             transform=transforms.Compose([
                 transforms.ToTensor(),
-                transforms.ColorJitter(hue=.02, saturation=.02, brightness=0.02, contrast=0.02),
-                transforms.RandomErasing(p=0.7, scale=(0.01, 0.2), ratio=(0.3, 3.3), value=0.1),
-                transforms.RandomGrayscale(p=0.5),
+                transforms.ColorJitter(hue=.25, saturation=.25, brightness=0.25, contrast=0.25),
+                transforms.RandomErasing(p=0.7, scale=(0.01, 0.25), ratio=(0.3, 3.3), value=0),
+                transforms.RandomGrayscale(p=0.7),
                 normalize, ])
         )
         valid_dataset = lib_dataset.CoCo(
