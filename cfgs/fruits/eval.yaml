@@ -1,17 +1,17 @@
 GPUS: '0'
-OUTPUT_DIR: '/content/output/eval-resnet50'
-LOG_DIR: '/content/logs/eval-resnet50'
+OUTPUT_DIR: '/content/output/eval-fruits'
+LOG_DIR: '/content/logs/eval-fruits'
 WORKERS: 4
 
 DATASET:
   DATASET: 'coco'
-  ROOT: '/Database/Done/pointer_10k'
-  TEST_SET: 'test_pointer'
-  ROT_FACTOR: 90
-  SCALE_FACTOR: 0.02
+  ROOT: '/content/Database/grapes'
+  TEST_SET: 'val_grapes'
+  ROT_FACTOR: 270
+  SCALE_FACTOR: 0.1
 MODEL:
   NAME: 'vdn_model'  # This name should exist in /VDN/libs/models
-  PRETRAINED: '/content/weights/pretrained/resnet18-5c106cde.pth'
+  PRETRAINED: '/content/output/train-fruits/final_state.pth.tar'
   IMAGE_SIZE:
   - 384  # width
   - 384  # height

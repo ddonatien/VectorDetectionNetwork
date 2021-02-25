@@ -8,8 +8,8 @@ DATASET:
   ROOT: '/content/Database/grapes'
   TRAIN_SET: 'train_grapes'
   TEST_SET: 'val_grapes'
-  ROT_FACTOR: 90
-  SCALE_FACTOR: 0.02
+  ROT_FACTOR: 270
+  SCALE_FACTOR: 0.1
 MODEL:
   NAME: 'vdn_model'
   PRETRAINED: '/content/weights/pretrained/resnet18-5c106cde.pth'
@@ -41,15 +41,15 @@ TRAIN:
   BATCH_SIZE: 8
   SHUFFLE: true
   BEGIN_EPOCH: 0
-  END_EPOCH: 220
+  END_EPOCH: 140
   RESUME: false
   OPTIMIZER: 'adam'
   LR: 0.001
   LR_FACTOR: 0.1
   LR_STEP:
-  - 90
-  - 160
-  - 210
+  - 80
+  - 110
+  - 130
   WD: 0.0001
   GAMMA1: 0.99
   GAMMA2: 0.0

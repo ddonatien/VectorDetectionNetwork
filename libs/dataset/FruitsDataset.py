@@ -357,7 +357,7 @@ class FruitsDataset(JointsDataset):
         coco_dt = self.coco.load_res(res_file)
         coco_eval = COCOeval(self.coco, coco_dt, 'keypoints')
         coco_eval.params.useSegm = None
-        coco_eval.params.kpt_oks_sigmas = 0.04 * np.ones(self.max_joint_num)
+        coco_eval.params.kpt_oks_sigmas = np.array([0.17, 0.88])
         coco_eval.evaluate()
         coco_eval.accumulate()
         coco_eval.summarize()
@@ -381,7 +381,7 @@ class FruitsDataset(JointsDataset):
         coco_eval.params.useSegm = None
 
         # Specifically set the sigma of VDS. Note here we borrowed the variable from OKS
-        coco_eval.params.kpt_oks_sigmas = 0.2 * np.ones(self.max_joint_num)
+        coco_eval.params.kpt_oks_sigmas = np.array([0.17, 0.88]) 
 
         coco_eval.evaluate()
         coco_eval.accumulate()
